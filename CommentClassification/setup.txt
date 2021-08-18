@@ -1,0 +1,10 @@
+selenium
+csv
+codecs
+regex
+pyvi
+urllib
+json
+
+Ngày 1/5/2021: đã thu thật dữ liệu và convert sang UTF8
+=> Cần làm sạch data

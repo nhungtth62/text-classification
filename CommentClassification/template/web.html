@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+   <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   </head>
+   <body>
+      <header>
+        <h1 >CHẤM ĐIỂM PHẢN HỒI CỦA KHÁCH HÀNG</h1>
+
+        <style>
+            h1{
+                text-align: center;
+                margin-top: 10%;
+                margin-bottom: 2%;
+                font-family:Arial;
+            }
+            table, th, td {
+                background-color: mintcream;
+                border: 1px solid black;
+                border-collapse: collapse;
+                margin-left: auto;
+                margin-right: auto;
+                font-size: 20px;
+                font-family: Arial;
+                height: auto;
+            }
+            th, td {
+                padding: 15px;
+            }
+            body {
+                margin:0;
+                padding:0;
+                background: url('http://www.tlu.edu.vn/Portals/0/2018/Thang4/truongdep7.jpg') no-repeat center center fixed;;
+                -webkit-background-size: cover;
+                 -moz-background-size: cover;
+                -o-background-size: cover;
+                 background-size: cover;
+            } 
+           input{
+               width: 60%;
+               padding: 30px;
+               font-size: 28px;
+    
+           }
+            button{
+               width: 20%;
+               padding: 30px;
+               font-size: 30px;
+               color: rgb(229, 255, 0);
+               font-weight:600;
+               background-color: rgb(18, 20, 18);
+           }
+          </style>
+    
+      </header>
+      
+      
+
+    
+      <form style="text-align: center; margin-bottom: 5%;" >
+            <input type="text" id="comment"  placeholder="Nhập phản hồi của khách hàng">
+            <button onclick="predict()" >KIỂM TRA </button> 
+      </form>
+
+      
+      <table style="width:80%" id= "result">
+        <tr>
+          <th>Phản hồi của khách hàng</th>
+          <th>Chấm điểm phản hồi</th> 
+        </tr>
+        {% for d in data %}
+            <tr>
+               <td> {{ d.comment }} </td>
+               <td> {{ d.point }} </td>
+            </tr>
+         {% endfor %}
+      </table>
+
+   </body>
+</html>
+
+<script>
+    function predict(){
+        let comment = document.getElementById('comment').value;
+        console.log(comment)
+        $.ajax({
+            url: "http://localhost:5000/predict-one?comment=" + comment.trim(), 
+            type: 'GET',
+            success: function(result){
+                console.log(result);
+                let nodeTr = document.createElement("tr");          
+                let nodeTd1 = document.createElement("td");  
+                let textnode1 = document.createTextNode(comment);         
+                let nodeTd2 = document.createElement("td");           
+                let textnode2 = document.createTextNode(result);          
+                nodeTd1.appendChild(textnode1);        
+                nodeTd2.appendChild(textnode2);   
+                nodeTr.appendChild(nodeTd1)      ;
+                nodeTr.appendChild(nodeTd2)      ;
+                document.getElementById("result").appendChild(nodeTr);     
+            }             
+        });
+    }
+</script>
